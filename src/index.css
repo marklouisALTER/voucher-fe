@@ -7,9 +7,12 @@
 @theme{
   --font-primary: "Roboto", sans-serif;
   --font-secondary: "Source Code Pro", monospace;
+  --color-brand-primary: #003554;
+  
 }
 
 :root {
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
