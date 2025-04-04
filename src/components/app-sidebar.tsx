@@ -39,7 +39,7 @@ const data = {
           url: "#",
         },
         {
-          title: "Reports",
+          title: "Summary Reports",
           url: "#",
         },
       ],
