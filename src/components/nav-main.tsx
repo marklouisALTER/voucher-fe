@@ -19,7 +19,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { IconType } from "react-icons";
-
+import { useLocation } from "react-router-dom";
 
 export function NavMain({
   items,
@@ -35,13 +35,16 @@ export function NavMain({
     }[]
   }[]
 }) {
+
+  const { pathname } = useLocation();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-white">Invoicing</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
-            <SidebarMenuItem className="hover:text-white py-2 text-gray-400 rounded-md transition-all ease-in-out ">
+            <SidebarMenuItem className={`hover:text-white py-2 text-gray-400 rounded-md transition-all ease-in-out ${pathname === item.url ? "text-white" : ""}`}>
               <SidebarMenuButton asChild tooltip={item.title}>
                 <a href={item.url}>
                   <item.icon />
