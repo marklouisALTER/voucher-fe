@@ -30,7 +30,7 @@ const data = {
   },
   invoicing: [
     {
-      title: "Invoicing",
+      title: "Invoice Management",
       url: "#",
       icon: IoReceipt,
       items: [
