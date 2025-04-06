@@ -1,86 +1,53 @@
 import {
-  Folder,
-  MoreHorizontal,
-  Share,
-  Trash2,
-  type LucideIcon,
-} from "lucide-react"
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
+import { IconType } from "react-icons"
+import { NavLink, useLocation } from "react-router-dom"
 
 export function NavProjects({
   projects,
 }: {
   projects: {
-    name: string
+    title: string
     url: string
-    icon: LucideIcon
+    icon: IconType 
   }[]
 }) {
-  const { isMobile } = useSidebar()
+  const { pathname } = useLocation()
 
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden text-gray-400">
+      <SidebarGroupLabel className="text-white">Projects</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </a>
-            </SidebarMenuButton>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
-                  <span className="sr-only">More</span>
-                </SidebarMenuAction>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-48"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
-              >
-                <DropdownMenuItem>
-                  <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Share className="text-muted-foreground" />
-                  <span>Share Project</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Trash2 className="text-muted-foreground" />
-                  <span>Delete Project</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton>
-            <MoreHorizontal />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        {projects.map((item) => {
+          const isActive = pathname === item.url
+
+          // ✅ Optional debug
+          console.log(`${item.title} => ${pathname} === ${item.url} ? ${isActive}`)
+
+          return (
+            <SidebarMenuItem
+              key={item.title}
+              className={`py-2 rounded-md transition-all ease-in-out ${
+                isActive ? "text-white" : "text-gray-400 hover:text-white"
+              }`}
+            >
+              <SidebarMenuButton asChild>
+                <NavLink
+                  to={item.url}
+                  className="flex items-center gap-2"
+                >
+                  <item.icon />
+                  <span>{item.title}</span>
+                </NavLink>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )
+        })}
       </SidebarMenu>
     </SidebarGroup>
   )

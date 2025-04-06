@@ -1,23 +1,14 @@
 import * as React from "react"
 import {
-  BookOpen,
-  Bot,
   ClockArrowDown,
   Frame,
-  LifeBuoy,
   Logs,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
   UserCog,
 } from "lucide-react"
 import { FaCartShopping } from "react-icons/fa6";
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavSecondary } from "@/components/nav-secondary"
+import { NavProjects } from "@/components/nav-projects" 
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -29,6 +20,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { IoReceipt } from "react-icons/io5";
+import { NavLink, useLocation } from "react-router-dom";
 
 const data = {
   user: {
@@ -38,7 +30,7 @@ const data = {
   },
   invoicing: [
     {
-      title: "Invoicing",
+      title: "Invoice Management",
       url: "#",
       icon: IoReceipt,
       items: [
@@ -47,16 +39,16 @@ const data = {
           url: "#",
         },
         {
-          title: "Reports",
+          title: "Summary Reports",
           url: "#",
         },
       ],
     },
   ],
-  others: [
+  other_links: [
     {
       title: "Pending Orders",
-      url: "#",
+      url: "/dashboard/pending-orders",
       icon: ClockArrowDown,
     },
     {
@@ -73,6 +65,8 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { pathname } = useLocation();
+
   return (
     <Sidebar variant="inset" className="bg-brand-primary" {...props}>
       <SidebarHeader className="bg-brand-primary/90">
@@ -80,7 +74,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
-                <div className="bg-white text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <div className="bg-white text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-xs">
                   <FaCartShopping className="text-brand-primary" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -95,18 +89,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="bg-brand-primary">
         {/* Dashboard link */}
         <SidebarMenu className="mt-5 p-2">
-          <SidebarMenuItem className="bg-[#1a4963] py-2 rounded-md">
+          <SidebarMenuItem className={`py-2 rounded-md ${pathname === "/dashboard" ? "text-white" : "text-gray-400"}`}>
             <SidebarMenuButton asChild>
-              <a href="#">
-                <Frame className="text-white" />
-                <span className="text-white">Dashboard</span>
-              </a>
+              <NavLink
+                to="/dashboard"
+                end
+              >
+                <Frame />
+                <span>Dashboard</span>
+              </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
         <NavMain items={data.invoicing} />
-        {/* <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
+        <NavProjects projects={data.other_links} />
       </SidebarContent>
       <SidebarFooter className="bg-brand-primary">
         <NavUser user={data.user} />
