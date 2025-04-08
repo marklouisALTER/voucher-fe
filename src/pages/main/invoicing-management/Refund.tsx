@@ -3,6 +3,7 @@ import type { SearchProps } from 'antd/es/input/Search';
 import { Input, Pagination } from 'antd';
 import { useRefundStore } from '@/store/useRefundStore';
 import { Inbox } from 'lucide-react';
+import { LoadingUi } from '@/components/common/Loading';
 
 export const Refund: React.FC = () => {
     const { Search } = Input;
@@ -41,11 +42,7 @@ export const Refund: React.FC = () => {
                 <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-5 mt-5 bg-white rounded-md">
                     {loading ? (
                         <div className='absolute w-full h-full flex flex-col gap-4 top-[-50px] left-0 items-center justify-center '>
-                            <div className="flex flex-row gap-2">
-                                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]" />
-                                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]" />
-                                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]" />
-                            </div>
+                            <LoadingUi />
                             <p className='text-gray-400 text-lg font-primary'>Please wait to load the data...</p>
                         </div>
                     ) : filteredItems.length > 0 ? (
