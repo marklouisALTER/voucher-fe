@@ -44,7 +44,7 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
-            <SidebarMenuItem className={`hover:text-white py-2 text-gray-400 rounded-md transition-all ease-in-out ${pathname === item.url ? "text-white" : ""}`}>
+            <SidebarMenuItem className={`py-2 text-gray-400 rounded-md transition-all ease-in-out ${pathname === item.url ? "text-white" : ""}`}>
               <SidebarMenuButton asChild tooltip={item.title}>
                 <a href={item.url}>
                   <item.icon />
