@@ -1,23 +1,14 @@
-import React, { useEffect } from 'react';
-import { Table, Button, Popconfirm, ConfigProvider } from 'antd'; 
-import { CiSquareMinus } from "react-icons/ci"; 
-import { MdDelete } from 'react-icons/md';
+import React from 'react';
+import { Table, ConfigProvider } from 'antd'; 
+import { CiSquareMinus } from "react-icons/ci";  
 import { useSelectedRefundItemStore } from '@/store/main/refund/useSelectedRefundItemStore';
 import { RefundItemBought } from '@/lib/type';
 
 export const RefundTable:React.FC = () => {
 
-    const { selectedItem } = useSelectedRefundItemStore();
-    
-    useEffect(() => {
-        console.log(selectedItem);
-    }, [selectedItem]);
-
-    const handleDelete = (id: string) => {
-        // Implement delete functionality here
-        console.log(id);
-    }
-
+    const { selectedItem, setDecrementQuantityItem } = useSelectedRefundItemStore();
+      
+ 
     const columns = [
         {
             title: 'ID',
@@ -44,17 +35,18 @@ export const RefundTable:React.FC = () => {
             dataIndex: 'quantity',
             key: 'quantity',
             width: 30,
-            render: (quantity: number) => {
+            render: (quantity: number, record: RefundItemBought) => {
                                 
                 return (
                     <span className='flex items-center gap-3'>
                         <button
-                            // onClick={() => handleDecrement(record.id)}
+                            onClick={() => setDecrementQuantityItem(record.id)}
                         >
-                            <CiSquareMinus className='text-brand-primary text-3xl hover:text-brand-primary/80 cursor-pointer'/>
+                            <CiSquareMinus className='text-red-700 text-3xl hover:text-red-700/80 cursor-pointer'/>
                         </button>                        
-                        <p className='text-primary'>{quantity}</p>
-                         
+                        <p className='text-primary'>
+                            {quantity}
+                        </p> 
                     </span>
                 )
             }
@@ -63,39 +55,23 @@ export const RefundTable:React.FC = () => {
             title: 'Amount',
             dataIndex: 'total_cost',
             key: 'total_cost',
-            width: 30,
+            width: 100,
+            render: (_: unknown, record: RefundItemBought) => {
+                return (
+                    <span className='text-brand-primary font-semibold'>
+                        ₱ {record?.total_cost?.toFixed(2)}
+                    </span>
+                )
+            }
         },
-        
-        {
-            title: 'Action',
-            key: 'operation',
-            width: 30,
-            render: (record: any) => (
-                <span className='flex-col md:flex-row'>
-                    <Popconfirm 
-                        title="Sure to delete?" 
-                        onConfirm={() => handleDelete(record.id)}
-                        okType='danger'
-                    >
-                        <Button 
-                            type="primary" 
-                            danger
-                            size="small"
-                        >
-                            <MdDelete />
-                        </Button>
-                    </Popconfirm>
-                </span>
-            )
-        },
+         
     ];
 
     return (
         <ConfigProvider
             theme={{
                 token: {
-                    colorPrimary: '#1677ff',
-                    borderRadius: 6,
+                    colorPrimary: '#1677ff', 
                 },
                 components: {
                     Table: {
@@ -107,8 +83,7 @@ export const RefundTable:React.FC = () => {
             }}
         >
             <Table
-                className='shadow-md'
-                title={() => <h1 className='text-xl font-medium text-primary font-secondary'>Current Order</h1>}
+                className='shadow-md mt-2' 
                 bordered={true}
                 columns={columns}
                 dataSource={selectedItem.item_bought}

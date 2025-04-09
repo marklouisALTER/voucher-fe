@@ -30,7 +30,7 @@ export const Refund: React.FC = () => {
     const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
-        <section className='w-full h-screen grid grid-cols-1 lg:grid-cols-3 lg:gap-5 mt-5'>
+        <section className='w-full h-3/4 grid grid-cols-1 lg:grid-cols-3 lg:gap-5 mt-5'>
             <div className='relative h-full col-span-1 bg-white rounded-lg p-5 shadow shadow-gray-300'>
                 <Search
                     placeholder="Search Sales Invoice here..."
