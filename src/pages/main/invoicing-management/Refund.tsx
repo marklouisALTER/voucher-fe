@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import type { SearchProps } from 'antd/es/input/Search';
 import { Input, Pagination } from 'antd';
-import { useRefundStore } from '@/store/useRefundStore';
+import { useRefundStore } from '@/store/main/refund/useRefundStore';
 import { Inbox } from 'lucide-react';
 import { LoadingUi } from '@/components/common/Loading';
-
+import { RefundCard } from '@/components/main/Refund/RefundCard';
+import { RefundTable } from '@/components/main/Refund/RefundTable';
 export const Refund: React.FC = () => {
     const { Search } = Input;
     const { fetchItems, items, loading } = useRefundStore();
     const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [pageSize] = useState<number>(5);
-
+    const [pageSize] = useState<number>(5); 
     useEffect(() => {
         fetchItems();
     }, []);
@@ -39,7 +39,7 @@ export const Refund: React.FC = () => {
                     onSearch={onSearch}
                 />
 
-                <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-5 mt-5 bg-white rounded-md">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-1 xl:grid-cols-2 gap-5 mt-5 bg-white rounded-md">
                     {loading ? (
                         <div className='absolute w-full h-full flex flex-col gap-4 top-[-50px] left-0 items-center justify-center '>
                             <LoadingUi />
@@ -47,27 +47,7 @@ export const Refund: React.FC = () => {
                         </div>
                     ) : filteredItems.length > 0 ? (
                         currentItems.map((item) => (
-                            <button
-                                key={item.vat_invoice}
-                                className="group relative w-full p-2 py-4 border border-brand-primary/20 rounded-md flex flex-col justify-center items-center hover:bg-brand-primary transition-all delay-50 ease-linear cursor-pointer hover:scale-105 bg-white"
-                            >
-                                <div className='w-12 h-12 xl:w-16 xl:h-16 rounded-full bg-[#38b3fb] flex justify-center items-center'>
-                                    <h3 className="font-primary font-bold group-hover:text-white transition-all delay-50 ease-in-out text-xl text-primary">
-                                        {item.buyer_name.charAt(0).toUpperCase()}
-                                    </h3>
-                                </div>
-                                <h3 className="font-primary font-bold mt-2 group-hover:text-white transition-all delay-50 ease-in-out text-md lg:text-xs xl:text-md text-primary">
-                                    {item.buyer_name}
-                                </h3>
-                                <p className="font-primary font-bold group-hover:text-white text-md lg:text-xs lg:text-md text-secondary">
-                                    <span className='text-gray-400 text-sm lg:text-[10px] xl:text-sm'>
-                                        Sales Invoice No.
-                                    </span>{' '}
-                                    <span className='text-brand-primary group-hover:text-white font-bold transition-all ease-in-out'>
-                                        {item.vat_invoice}
-                                    </span>
-                                </p>
-                            </button>
+                            <RefundCard {...item} key={item.vat_invoice} />  
                         ))
                     ) : (
                         <div className='absolute w-full h-full flex flex-col gap-4 top-[-50px] left-0 items-center justify-center'>
@@ -90,6 +70,8 @@ export const Refund: React.FC = () => {
             </div>
 
             <div className='col-span-2 bg-white p-5 rounded-lg shadow shadow-gray-300 mt-5 lg:mt-0'> 
+                <h3 className='text-xl font-primary font-bold text-gray-600'>Refund Details</h3>
+                <RefundTable />
             </div>
         </section>
     );
