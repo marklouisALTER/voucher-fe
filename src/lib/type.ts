@@ -1,5 +1,5 @@
 export type RefundItemBought = {
-    id: string;
+    id: number;
     product_name: string;
     quantity: number;
     total_cost: number;
