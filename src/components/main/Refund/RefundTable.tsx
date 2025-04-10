@@ -99,7 +99,7 @@ export const RefundTable:React.FC = () => {
                 <div className='grid grid-cols-1 xl:grid-cols-2 gap-5'>
                     <div className='flex flex-col gap-2'>
                         <div className='flex items-center justify-between gap-5'>
-                            <span className='text-sm lg:text-xl text-gray-600 font-bold'>Net Sales</span> 
+                            <span className='text-sm lg:text-xl text-gray-600 font-bold text-brand-primary'>Net Sales</span> 
                             {/* <p className='font-medium'>₱ 12,000</p>  */}
                         </div>
                         <div className='flex items-center justify-between gap-5'>
