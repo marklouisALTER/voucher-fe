@@ -2,11 +2,14 @@ import React from 'react';
 import { Table, ConfigProvider } from 'antd'; 
 import { CiSquareMinus } from "react-icons/ci";  
 import { useSelectedRefundItemStore } from '@/store/main/refund/useSelectedRefundItemStore';
-import { RefundItemBought } from '@/lib/type';
+import { RefundItemBought } from '@/lib/type'; 
+import { IoCart } from 'react-icons/io5';
+import { Button } from '@mui/material';
+import { CircleX } from 'lucide-react';
 
 export const RefundTable:React.FC = () => {
 
-    const { selectedItem, setDecrementQuantityItem } = useSelectedRefundItemStore();
+    const { selectedItem, setDecrementQuantityItem, selectedItemsComputations } = useSelectedRefundItemStore();
       
  
     const columns = [
@@ -92,24 +95,36 @@ export const RefundTable:React.FC = () => {
                 style={{ border: 'none' }}
                 
             />
-            <div className='bg-[#F7F7F7] p-4 rounded-md'>
-                <hr className="w-full border-dotted border-[#38B3FB] my-4" />
-                <h1 className='mt-4 lg:text-lg font-bold'>Net Sales </h1>
-                <div className='grid grid-cols-1 ml-[25%]'>
-                    <div className='grid grid-cols-2 gap-10'>
-                        <span className='text-xs lg:text-lg text-gray-500 '>VATable amount</span>
-                        {/* <span className='lg:text-2xl  '>₱{totalData.vatAmount?.toFixed(2)}</span> */}
-                    </div>
-                    <div className='grid grid-cols-2 gap-10'>
-                        <span className='text-xs lg:text-lg text-gray-500 '>VATable output tax</span>
-                        {/* <span className='lg:text-2xl  '>₱{(totalData.vatOutput)?.toFixed(2)}</span> */}
-                    </div>
-                    <div className='grid grid-cols-2 gap-10 mt-4'>
-                        <span className='text-sm lg:text-xl text-gray-600 font-bold'>Total Amount</span>
-                        {/* <span className='text-md lg:text-3xl font-bold '>₱{(totalData.totalAmount)?.toFixed(2)}</span> */}
+            <div className='p-4 rounded-md mt-5'>  
+                <div className='grid grid-cols-1 xl:grid-cols-2 gap-5'>
+                    <div className='flex flex-col gap-2'>
+                        <div className='flex items-center justify-between gap-5'>
+                            <span className='text-sm lg:text-xl text-gray-600 font-bold'>Net Sales</span> 
+                            {/* <p className='font-medium'>₱ 12,000</p>  */}
+                        </div>
+                        <div className='flex items-center justify-between gap-5'>
+                            <span className='text-xs lg:text-lg font-semibold text-gray-500 '>VATable amount</span>
+                            <p className='font-medium'>₱ {selectedItemsComputations.total_amount}</p> 
+                        </div>
+                        <div className='flex items-center justify-between gap-5'>
+                            <span className='text-xs lg:text-lg text-gray-500 '>VATable output tax</span> 
+                            <p className='font-medium'>₱ {selectedItemsComputations.vat_output_tax}</p> 
+                        </div>
+                    </div> 
+                    <div className='flex flex-col items-end'>
+                        <span className='text-xs lg:text-sm text-gray-500 '>Grand Total</span> 
+                        <p className='font-bold text-3xl text-brand-primary'>₱ {selectedItemsComputations.total_amount}</p> 
                     </div>
                 </div>
+                <div className='flex justify-center mt-5 lg:mt-10 gap-5'>
+                    <button className='w-full bg-brand-primary px-10 py-3 font-medium font-primary text-white rounded-sm cursor-pointer hover:bg-brand-primary/80 transition-all
+                    ease-in-out flex items-center justify-center gap-5'>
+                        <IoCart className='text-lg'/>
+                        Refund Receipt
+                    </button>
+                    <Button variant="outlined"><CircleX /></Button>
 
+                </div>
             </div>
             
         </ConfigProvider>
