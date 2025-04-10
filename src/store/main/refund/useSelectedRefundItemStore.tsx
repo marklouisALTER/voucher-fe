@@ -12,23 +12,29 @@ type selectedRefundItemType = {
         total_amount: number
     }
     setDecrementQuantityItem: (id: number) => void;
+    setClearSelectedItem: () => void;
 }
 
 
 const computeVAT = (item_bought: SingleRefundItemType['item_bought']) => {
-    const vatable_amount = item_bought?.reduce((acc, curr) => acc + (curr.total_cost * curr.quantity), 0) || 0;
-    const vat_output_tax = parseFloat((vatable_amount * 0.12).toFixed(2));
-    const total_amount = parseFloat((vatable_amount + vat_output_tax).toFixed(2));
-
+    const total_amount = item_bought?.reduce(
+      (acc, curr) => acc + curr.total_cost,
+      0
+    ) || 0;
+  
+    const vatable_amount = parseFloat((total_amount / 1.12).toFixed(2));
+    const vat_output_tax = parseFloat((total_amount - vatable_amount).toFixed(2));
+  
     return { vatable_amount, vat_output_tax, total_amount };
-}
+  };
+  
 
 export const useSelectedRefundItemStore = create<selectedRefundItemType>((set) => ({
     selectedItem: {} as SingleRefundItemType,
     selectedItemsComputations: {
-        vatable_amount: 0,
-        vat_output_tax: 0,
-        total_amount: 0,
+        vatable_amount: 0.00,
+        vat_output_tax: 0.00,
+        total_amount: 0.00,
     },
     setDecrementQuantityItem: (id) => {
         
@@ -62,6 +68,17 @@ export const useSelectedRefundItemStore = create<selectedRefundItemType>((set) =
           selectedItem: item,
           selectedItemsComputations: computations,
         });
-      },
+    },
+    setClearSelectedItem: () => {
+        set({
+            selectedItem: {} as SingleRefundItemType,   
+            selectedItemsComputations: {
+                vatable_amount: 0.00,  
+                vat_output_tax: 0.00,
+                total_amount: 0.00,
+            },
+        });
+    
+    }
     
 }))

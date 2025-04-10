@@ -9,7 +9,7 @@ import { CircleX } from 'lucide-react';
 
 export const RefundTable:React.FC = () => {
 
-    const { selectedItem, setDecrementQuantityItem, selectedItemsComputations } = useSelectedRefundItemStore();
+    const { selectedItem, setDecrementQuantityItem, selectedItemsComputations, setClearSelectedItem } = useSelectedRefundItemStore();
       
  
     const columns = [
@@ -104,16 +104,16 @@ export const RefundTable:React.FC = () => {
                         </div>
                         <div className='flex items-center justify-between gap-5'>
                             <span className='text-xs lg:text-lg font-semibold text-gray-500 '>VATable amount</span>
-                            <p className='font-medium'>₱ {selectedItemsComputations.total_amount}</p> 
+                            <p className='font-medium'>₱ {selectedItemsComputations?.vatable_amount || "0.00"}</p> 
                         </div>
                         <div className='flex items-center justify-between gap-5'>
                             <span className='text-xs lg:text-lg text-gray-500 '>VATable output tax</span> 
-                            <p className='font-medium'>₱ {selectedItemsComputations.vat_output_tax}</p> 
+                            <p className='font-medium'>₱ {selectedItemsComputations?.vat_output_tax || "0.00"}</p> 
                         </div>
                     </div> 
                     <div className='flex flex-col items-end'>
                         <span className='text-xs lg:text-sm text-gray-500 '>Grand Total</span> 
-                        <p className='font-bold text-3xl text-brand-primary'>₱ {selectedItemsComputations.total_amount}</p> 
+                        <p className='font-bold text-3xl text-brand-primary'>₱ {selectedItemsComputations?.total_amount || "0.00"}</p> 
                     </div>
                 </div>
                 <div className='flex justify-center mt-5 lg:mt-10 gap-5'>
@@ -122,7 +122,7 @@ export const RefundTable:React.FC = () => {
                         <IoCart className='text-lg'/>
                         Refund Receipt
                     </button>
-                    <Button variant="outlined"><CircleX /></Button>
+                    <Button variant="outlined" onClick={setClearSelectedItem}><CircleX /></Button>
 
                 </div>
             </div>
